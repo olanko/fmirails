@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  val: MyString
+  name: MyString
+  position: MyString
+  ts: 2015-10-25 10:47:08
+  inserted: 2015-10-25 10:47:08
+
+two:
+  val: MyString
+  name: MyString
+  position: MyString
+  ts: 2015-10-25 10:47:08
+  inserted: 2015-10-25 10:47:08
