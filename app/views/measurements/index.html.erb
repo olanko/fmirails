@@ -14,7 +14,7 @@ $(function() {
                 }
             };
 
-    function onDataReceived(data, seriesname) {
+    function onDataReceived(data, seriesname, seriesorder) {
         flotdata = [];
         for (i = 0; i < data.length; i++) {
             flotdata.push([new Date(data[i]['ts']).getTime(), 1.0 * data[i]['val']]);
@@ -22,25 +22,24 @@ $(function() {
 
         console.log(flotdata);
 
-        seriesdata.push({label: seriesname, data: flotdata});
+        seriesdata[seriesorder] = {label: seriesname, data: flotdata};
 
         $.plot("#flot-placeholder", seriesdata, options);
-        //$.plot("#flot-placeholder", [{label: 'Keskilämpötila', data: flotdata}], options);
     }
 
-    function getSeries(seriesname) {
+    function getSeries(seriesname, seriesorder) {
         $.ajax({
             url: '/measurements.json?n=' + seriesname + '&starttime=<%= @params[:starttime] %>',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                onDataReceived(data, seriesname);
+                onDataReceived(data, seriesname, seriesorder);
             }
         });
     }
-    getSeries('tday');
-    getSeries('tmin');
-    getSeries('tmax');
+    getSeries('tmax', 0);
+    getSeries('tday', 1);
+    getSeries('tmin', 2);
 });
 </script>
 
