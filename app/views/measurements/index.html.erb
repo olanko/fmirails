@@ -1,5 +1,36 @@
 <p id="notice"><%= notice %></p>
 
+<!-- create a placeholder for the flot graph -->
+<h2>Kuhmo, Kalliojoki</h2>
+<div id="flot-placeholder" style="width:600px; height: 400px"></div>
+
+<script type="text/javascript">
+$(function() {
+    var flotdata = [];
+    var options = {
+                xaxis: {
+                    mode: "time"
+                }
+            };
+
+    function onDataReceived(data) {
+        for (i = 0; i < data.length; i++) {
+            flotdata.push([new Date(data[i]['ts']).getTime(), 1.0 * data[i]['val']]);
+        }
+
+        console.log(flotdata);
+
+        $.plot("#flot-placeholder", [{label: 'Keskilämpötila', data: flotdata}], options);
+    }
+    $.ajax({
+        url: '/measurements.json?n=tday&starttime=<%= @params[:starttime] %>',
+        type: 'GET',
+        dataType: 'json',
+        success: onDataReceived
+    });
+});
+</script>
+
 <h1>Listing Measurements</h1>
 
 <table>
@@ -30,37 +61,8 @@
   </tbody>
 </table>
 
+<%= @params %>
 <br>
 
 <%= link_to 'New Measurement', new_measurement_path %>
 
-<!-- create a placeholder for the flot graph -->
-<h2>Kuhmo, Kalliojoki</h2>
-<div id="flot-placeholder" style="width:600px; height: 400px"></div>
-
-<script type="text/javascript">
-$(function() {
-    var flotdata = [];
-    var options = {
-                xaxis: {
-                    mode: "time"
-                }
-            };
-
-    function onDataReceived(data) {
-        for (i = 0; i < data.length; i++) {
-            flotdata.push([new Date(data[i]['ts']).getTime(), 1.0 * data[i]['val']]);
-        }
-
-        console.log(flotdata);
-
-        $.plot("#flot-placeholder", [{label: 'Keskilämpötila', data: flotdata}], options);
-    }
-    $.ajax({
-        url: '/measurements.json?n=tday&starttime=2015-01-01',
-        type: 'GET',
-        dataType: 'json',
-        success: onDataReceived
-    });
-});
-</script>
