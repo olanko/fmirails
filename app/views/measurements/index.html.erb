@@ -29,7 +29,7 @@ $(function() {
 
     function getSeries(seriesname, seriesorder, serieslabel) {
         $.ajax({
-            url: '/measurements.json?n=' + seriesname + '&starttime=<%= @params[:starttime] %>',
+            url: '/measurements.json?n=' + seriesname + '&starttime=<%= @params[:starttime] %>&endtime=<%= @params[:endtime] %>',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
