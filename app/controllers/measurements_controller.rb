@@ -4,7 +4,7 @@ class MeasurementsController < ApplicationController
   # GET /measurements
   # GET /measurements.json
   def index
-    @measurements = Measurement.filter(params.slice(:n, :starttime, :endtime, :limit)).order("ts desc")
+    @measurements = Measurement.filter(params.slice(:n, :starttime, :endtime, :limit)).order("ts")
   end
 
   # GET /measurements/1
